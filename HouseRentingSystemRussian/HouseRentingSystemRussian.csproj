@@ -4,7 +4,7 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>aspnet-HouseRentingSystemRussian-07509fa1-58ed-4dbb-a496-c628f9afb013</UserSecretsId>
+    <UserSecretsId>aspnet-HouseRentingSystemRussian-fe92e0fe-8ff8-435f-96a6-7a8a1e3e16c4</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,6 +13,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\HouseRentingSystemRussian.Core\HouseRentingSystemRussian.Core.csproj" />
   </ItemGroup>
 
 </Project>
