@@ -1,3 +1,5 @@
+using HouseRentingSystemRussian.Core.Contracts;
+using HouseRentingSystemRussian.Core.Services;
 using HouseRentingSystemRussian.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -9,6 +11,8 @@ var connectionString = builder.Configuration.GetConnectionString("DefaultConnect
 builder.Services.AddDbContext<HouseRentingDbContext>(options =>
     options.UseSqlServer(connectionString));
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+
+builder.Services.AddScoped<IAgentService, AgentService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
