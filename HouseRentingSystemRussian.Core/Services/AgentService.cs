@@ -2,11 +2,6 @@
 using HouseRentingSystemRussian.Data;
 using HouseRentingSystemRussian.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace HouseRentingSystemRussian.Core.Services
 {
@@ -35,7 +30,7 @@ namespace HouseRentingSystemRussian.Core.Services
             return await data.Agents.AnyAsync(a => a.UserId == userId);
         }
 
-        //Връща Id на агента от таблицата Agents, което всъшност е външен ключ, който сочи към AspNetUsers таблицата 
+        //Връща Id на агента от таблицата Agents, което всъщност е външен ключ, който сочи към AspNetUsers таблицата 
         public async Task<int?> GetAgentId(string userId)
         {
             //FirstOrDefault() намира първия агент с UserId, който съвпада с предадения параметър
