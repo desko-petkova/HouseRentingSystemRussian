@@ -1,0 +1,49 @@
+﻿@model IEnumerable<HouseIndexServiceModel>
+
+@{
+    ViewData["Title"] = "All Houses";
+    var houses = Model.ToList();
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome to the best place for renting houses!</h1>
+</div>
+@if (!houses.Any())
+{
+    <div class="mt-4 p-5 bg-light">
+        <h1 class="display-4">Welcome to the best place for renting houses!</h1>
+        <p class="lead">
+            There are no houses in the system currently available
+            so why don't you just add one?
+        </p>
+        <hr class="my-4">
+        <p class="lead">
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="House" asp-action="Add" class="btn btn-primary btn-lg"
+                   role="button">Add House</a>
+            }
+        </p>
+    </div>
+
+}
+else
+{
+    <div class="row">
+        @foreach (var house in Model)
+        {
+            <div class="col-md-4">
+                <div class="card">
+                    <img src="@house.ImageUrl" class="card-img-top" alt="@house.Title">
+                    <div class="card-body">
+                        <h5 class="card-title">@house.Title</h5>
+                        <a asp-controller="House" asp-action="Details" asp-route-id="@house.Id" class="btn btn-primary">Детайли</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+
+    </div>
+}
+
