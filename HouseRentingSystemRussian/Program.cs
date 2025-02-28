@@ -13,6 +13,7 @@ builder.Services.AddDbContext<HouseRentingDbContext>(options =>
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddScoped<IAgentService, AgentService>();
+builder.Services.AddScoped<IHouseService, HouseService>();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {

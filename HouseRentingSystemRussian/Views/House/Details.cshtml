@@ -1,0 +1,27 @@
+﻿@model HouseDetailsViewModel
+@{
+    ViewData["Title"] = "House Details";
+    var house = Model;
+}
+
+<div class="text-center">
+    <h2 class="text-primary">Детайли за @house.Title</h2>
+</div>
+<div class="container mt-5">
+    <div class="row">
+        <!-- Лява колона: Картинка -->
+        <div class="col-md-4">
+            <img src="@house?.ImageUrl" class="card-img-top" alt="@house?.Title">
+        </div>
+
+        <!-- Дясна колона: Детайли -->
+        <div class="col-md-8">
+            <div class="card shadow p-4">
+                <p class="text-muted"><strong>Address:</strong> @house?.Address</p>
+                <p><strong>Description:</strong> @house?.Description</p>
+                <h4 class="text-success"><strong>Price per month:</strong> @house?.PricePerMonth</h4>
+                <a href="#" class="btn btn-primary mt-3">Наеми сега</a>
+            </div>
+        </div>
+    </div>
+</div>
