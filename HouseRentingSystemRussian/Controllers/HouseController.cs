@@ -28,27 +28,17 @@ namespace HouseRentingSystemRussian.Controllers
             query.Categories = await house.AllCategoriesNames();
             return View(query);
         }
-        //[AllowAnonymous]
-        //[HttpGet]
-        //public async Task<IActionResult> All()
-        //{
+        [AllowAnonymous, HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            if (await house.ExistsAsync(id) == false)
+            {
+                return BadRequest();
+            }
 
-        //    var model = await house.AllHousesListAsync();
-        //    return View(model);
-        //}
+            var model = await house.HouseDetailsByIdAsync(id);
+            return View(model);
 
-
-
-        //Можете да замените ImageUrl-то в базата данни на къщата, чиято картинка не се визуализира със следния линк
-        //https://media.istockphoto.com/id/2175972627/photo/modern-two-story-house-at-sunset.jpg?s=1024x1024&w=is&k=20&c=KHmEJQsul-9PdcQGxglJNNylmaP4uQSfnZIAm_Q_veM=
-        //
-
-        //[HttpGet]
-        //public async Task<IActionResult> Details(int id)
-        //{
-        //    var model = await house.HouseDetails(id);
-        //    return View(model);
-
-        //}
+        }
     }
 }
