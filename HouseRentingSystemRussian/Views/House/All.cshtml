@@ -1,49 +1,100 @@
-﻿@model IEnumerable<HouseIndexServiceModel>
+﻿@model HouseQueryServiceModel
 
 @{
-    ViewData["Title"] = "All Houses";
-    var houses = Model.ToList();
+    ViewBag.Title = "All Houses";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome to the best place for renting houses!</h1>
-</div>
-@if (!houses.Any())
-{
-    <div class="mt-4 p-5 bg-light">
-        <h1 class="display-4">Welcome to the best place for renting houses!</h1>
-        <p class="lead">
-            There are no houses in the system currently available
-            so why don't you just add one?
-        </p>
-        <hr class="my-4">
-        <p class="lead">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-controller="House" asp-action="Add" class="btn btn-primary btn-lg"
-                   role="button">Add House</a>
-            }
-        </p>
-    </div>
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
 
-}
-else
-{
+<form method="get">
     <div class="row">
-        @foreach (var house in Model)
-        {
-            <div class="col-md-4">
-                <div class="card">
-                    <img src="@house.ImageUrl" class="card-img-top" alt="@house.Title">
-                    <div class="card-body">
-                        <h5 class="card-title">@house.Title</h5>
-                        <a asp-controller="House" asp-action="Details" asp-route-id="@house.Id" class="btn btn-primary">Детайли</a>
-                    </div>
-                </div>
+        <div class="form-group col-md-3 d-flex justify-content-between">
+            <div class="form-group">
+                <label asp-for="Category"></label>
+                <select asp-for="Category" class="form-control">
+                    <option value="">All</option>
+                    @foreach (var category in Model.Categories)
+                    {
+                        <option value="@category">@category</option>
+                    }
+                </select>
             </div>
+        </div>
 
-        }
+        <div class="form-group col-md-3">
+            <label asp-for="SearchTerm"></label>
+            <input asp-for="SearchTerm" class="form-control" placeholder="...">
+        </div>
 
+        <div class="form-group col-md-3">
+            <div class="form-group">
+                <label asp-for="Sorting"></label>
+                <select asp-for="Sorting" class="form-control">
+                    <option value="0">Newest</option>
+                    <option value="1">Lowest price first</option>
+                    <option value="2">Not rented first</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="col-md-3">
+            <div class="form-group mt-4 p-2">
+                <input type="submit" value="Search" class="btn btn-primary" />
+            </div>
+        </div>
     </div>
+</form>
+
+
+@{
+    var previousPage = Model.CurrentPage - 1;
+    if (previousPage < 1)
+    {
+        previousPage = 1;
+    }
+
+    var maxPage = Math.Ceiling((double)Model.TotalHousesCount /
+        Model.HousesPerPage);
 }
 
+<div class="row mb-5">
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-start">
+        <a class="btn btn-primary @(Model.CurrentPage == 1 ? "disabled" : string.Empty)"
+           asp-controller="House"
+           asp-action="All"
+           asp-route-currentPage="@previousPage"
+           asp-route-category="@Model.Category"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)"><<</a>
+    </div>
+
+    @{
+        var shouldButtonBeDisabled = Model.CurrentPage == maxPage ||
+        !Model.Houses.Any();
+    }
+
+    <div class="col-md-6 d-grid gap-2 d-md-flex justify-content-md-end">
+        <a class="btn btn-primary
+           @(shouldButtonBeDisabled ? "disabled" : string.Empty)"
+           asp-controller="House"
+           asp-action="All"
+           asp-route-currentPage="@(Model.CurrentPage + 1)"
+           asp-route-category="@Model.Category"
+           asp-route-searchTerm="@Model.SearchTerm"
+           asp-route-sorting="@((int)Model.Sorting)">>></a>
+    </div>
+</div>
+
+@if (!Model.Houses.Any())
+{
+    <h2 class="text-center">No houses found by the given criteria!</h2>
+}
+
+<div class="row">
+    @foreach (var house in Model.Houses)
+    {
+
+        <partial name="_HousePartial" model="@house" />
+    }
+</div>

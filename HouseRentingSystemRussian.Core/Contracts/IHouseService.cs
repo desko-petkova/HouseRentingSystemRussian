@@ -9,7 +9,14 @@ namespace HouseRentingSystemRussian.Core.Contracts
 {
     public interface IHouseService
     {
-        Task<IEnumerable<HouseIndexServiceModel>> AllHousesListAsync();
-        Task<HouseDetailsViewModel> HouseDetails(int id);
+        //Task<IEnumerable<HouseIndexServiceModel>> AllHousesListAsync();
+        //Task<HouseDetailsViewModel> HouseDetails(int id);
+        Task<IEnumerable<string>> AllCategoriesNames();
+        Task<HouseQueryServiceModel> AllAsync(
+            string? category = null,
+            string? searchTerm = null,
+            HouseSorting sorting = HouseSorting.Newest,
+            int currentPage = 1,
+            int housesPerPage = 1);
     }
 }
