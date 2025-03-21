@@ -7,5 +7,6 @@
         public const string PhoneExists = "Phone number already exists. Enter another one!";
         public const string HasRents = "You should have no rents to become an angent.";
         public const string CustomErrorMessage = "Something is wrong! You are already an agent.";
+        public const string PriceMessage = "Price per month must be a positiv number and less 2000";
     }
 }

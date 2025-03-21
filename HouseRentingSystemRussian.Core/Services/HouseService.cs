@@ -1,6 +1,7 @@
 ﻿using HouseRentingSystemRussian.Core.Contracts;
 using HouseRentingSystemRussian.Core.Models.House;
 using HouseRentingSystemRussian.Data;
+using HouseRentingSystemRussian.Infrastructure.Data.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -111,6 +112,39 @@ namespace HouseRentingSystemRussian.Core.Services
                 }
                 return house;
             }
-        
+        //Add
+        public async Task<IEnumerable<HouseCategoryServiceModel>> AllCategoriesAsync()
+        {
+            return await data.Categories
+                .Select(c => new HouseCategoryServiceModel()
+                {
+                    Id = c.Id,
+                    Name = c.Name
+                }).ToListAsync();
+        }
+
+        public async Task<bool> CategoryExistsAsync(int categoryId)
+        {
+            return await data.Categories
+                .AnyAsync(c => c.Id == categoryId);
+        }
+
+        public async Task<int> CreateAsync(HouseFormViewModel model, int agentId)
+        {
+            House house = new House()
+            {
+                Title = model.Title,
+                Address = model.Address,
+                Description = model.Description,
+                ImageUrl = model.ImageUrl,
+                PricePerMonth = model.PricePerMonth,
+                CategoryId = model.CategoryId,
+                AgentId = agentId
+            };
+            await data.AddAsync(house);
+            await data.SaveChangesAsync();
+            return house.Id;
+        }
+
     }
 }
