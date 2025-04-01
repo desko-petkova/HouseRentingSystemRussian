@@ -1,5 +1,7 @@
-﻿@model HouseServiceModel
-
+﻿@using HouseRentingSystemRussian.Infrastructure.ClaimsPrincipalExtensions
+@model HouseServiceModel
+@inject IAgentService agentService
+@inject IHouseService houseService
 <div class="col-md-4">
     <div class="card mb-3">
         <img class="card-img-top" src="@Model.ImageUrl" alt="House Image">
@@ -16,10 +18,14 @@
                class="btn btn-success">Details</a>
             @if (this.User.Identity.IsAuthenticated)
             {
-                <a asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
-                   class="btn btn-warning">Edit</a>
-                <a asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id"
-                   class="btn btn-danger">Delete</a>
+                @if (User.IsInRole("Agent"))
+                {
+                    <a asp-controller="House" asp-action="Edit" asp-route-id="@Model.Id"
+                       class="btn btn-warning">Edit</a>
+                    <a asp-controller="House" asp-action="Delete" asp-route-id="@Model.Id"
+                       class="btn btn-danger">Delete</a>
+                }
+
                 <p></p>
                 @if (!Model.IsRented)
                 {

@@ -145,6 +145,38 @@ namespace HouseRentingSystemRussian.Core.Services
             await data.SaveChangesAsync();
             return house.Id;
         }
+        //Mine
+        public async Task<IEnumerable<HouseServiceModel>> AllHousesByAgentIdAsync(int agentId)
+        {
+            return await data.Houses
+            .Where(h => h.AgentId == agentId)
+            .Select(h => new HouseServiceModel()
+            {
+                Id = h.Id,
+                Title = h.Title,
+                Address = h.Address,
+                ImageUrl = h.ImageUrl,
+                PricePerMonth = h.PricePerMonth,
+                IsRented = h.RenterId != null
+            })
+            .ToListAsync();
+        }
+
+        public async Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId)
+        {
+            return await data.Houses
+                .Where(h => h.RenterId == userId)
+                .Select(h => new HouseServiceModel()
+                {
+                    Id = h.Id,
+                    Title = h.Title,
+                    Address = h.Address,
+                    ImageUrl = h.ImageUrl,
+                    PricePerMonth = h.PricePerMonth,
+                    IsRented = h.RenterId != null
+                })
+                .ToListAsync();
+        }
 
     }
 }

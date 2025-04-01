@@ -25,5 +25,10 @@ namespace HouseRentingSystemRussian.Core.Contracts
         Task<IEnumerable<HouseCategoryServiceModel>> AllCategoriesAsync();
         Task<bool> CategoryExistsAsync(int categoryId);
         Task<int> CreateAsync(HouseFormViewModel model, int agentId);
+
+
+        //Покажи само моите къщи
+        Task<IEnumerable<HouseServiceModel>> AllHousesByAgentIdAsync(int agentId);
+        Task<IEnumerable<HouseServiceModel>> AllHousesByUserId(string userId);
     }
 }

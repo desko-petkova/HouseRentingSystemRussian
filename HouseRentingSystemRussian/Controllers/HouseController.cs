@@ -77,5 +77,22 @@ namespace HouseRentingSystemRussian.Controllers
             int newHouseId = await house.CreateAsync(model, agentId ?? 0);
             return RedirectToAction(nameof(Details), new { id = newHouseId });
         }
+
+        [HttpGet]
+        public async Task<IActionResult> Mine()
+        {
+            var userId = User.Id();
+            IEnumerable<HouseServiceModel> model;
+            if (await agent.ExistById(userId))
+            {
+                var agentId = await agent.GetAgentId(userId) ?? 0;
+                model = await house.AllHousesByAgentIdAsync(agentId);
+            }
+            else
+            {
+                model = await house.AllHousesByUserId(userId);
+            }
+            return View(model);
+        }
     }
 }
